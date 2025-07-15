@@ -1,7 +1,10 @@
 /*
-  CARD SORTER 9000
+  CARD-SORTER-9000    by GRUPPO_01
 
-  ...
+  Il codice qui presente si occupa della pare embedded del progetto. Nello script proposto, si effettua la
+  lettura del colore di una carta di MTG e la si ripone in modo automatico nel corretto conenitore.
+  Per snellire il codice si è realizzata una apposita libreria contenente le funzioni e le procedure prin-
+  -cipali, volte a svolgere i compiti centrali del sistema.
 */
 
 #include<ProgettoGRUPPO1.h>

@@ -1,3 +1,10 @@
+/*
+  CARD-SORTER-9000_library    by GRUPPO_01
+
+  Libreria creata ad-hoc per definire le principali funzioni utilizzate nel codice eseguito dal sistema
+  di card sorting progettato.
+*/
+
 #include<Wire.h>
 #include<VL53L0X.h>
 #include<Adafruit_TCS34725.h>
