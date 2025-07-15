@@ -21,10 +21,12 @@ Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS347
 Bounce debouncer = Bounce();
 Servo servo;
 Servo brush;
+BluetoothSerial SerialBT;
 
 float distSens;
 uint16_t r, g, b, c; float nR, nG, nB;
 string colore; //?
+char received = 'N';
 
 void setup() {
   Serial.begin(115200);
@@ -48,6 +50,8 @@ void setup() {
 
   servo.attach(SERVO_pin); servo.write(0);
   brush.attach(BRUSH_pin); brush.write(90);
+
+  Serial.println("Inizializzo la connessione Bluetooth, controlla i dispositivi disponibili sul tuo cellulare!"); SerialBT.begin("Card_Sorter_9000");
 
   delay(1000);
 }
@@ -94,10 +98,11 @@ void loop() {
   Serial.print("Spazzola in angolo: ");
   Serial.println(brush.read());
   Serial.println("In attesa di segnale Bluetooth o pulsante premuto...");
+  digitalWrite(RED_pin, HIGH);
   while(true) {
     debouncer.update();
-    digitalWrite(RED_pin, HIGH);              
-    if(debouncer.fell() || ...) {  
+    if(SerialBT.available()) received = SerialBT.read();
+    if(debouncer.fell() || received == 'Y') {  
       Serial.println("OK!!");
       digitalWrite(RED_pin, LOW);
       digitalWrite(GREEN_pin, HIGH);
