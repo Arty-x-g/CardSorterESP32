@@ -64,6 +64,8 @@ void setup() {
   brush.attach(BRUSH_pin); brush.write(90);
 
   Serial.println("Inizializzo la connessione Bluetooth, controlla i dispositivi disponibili sul tuo cellulare!"); SerialBT.begin("Card_Sorter_9000");
+  while(!SerialBT.hasClient()) delay(100);
+  Serial.println("Cellulare connesso correttamente!");
 
   delay(1000);
 }
