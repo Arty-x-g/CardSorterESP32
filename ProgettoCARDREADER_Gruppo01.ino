@@ -1,3 +1,9 @@
+/*
+  CARD SORTER 9000
+
+  ...
+*/
+
 #include<ProgettoGRUPPO1.h>
 
 #define SCL0_pin 13  
@@ -13,28 +19,31 @@
 
 #define MIN_dist 60
 
+// Inizializzazione delle connessioni I2C per i sensori
 TwoWire vl53_I2C = TwoWire(0);
 TwoWire tcs_I2C = TwoWire(1);
 
+// Creazione degli oggetti (sensori, pulsante, servomotori e bluetooth)
 VL53L0X vl53;
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_16X);
 Bounce debouncer = Bounce();
-Servo servo;
-Servo brush;
+Servo servo; Servo brush;
 BluetoothSerial SerialBT;
 
-float distSens;
-uint16_t r, g, b, c; float nR, nG, nB;
-string colore; //?
-char received = 'N';
+// Variabili globali
+float distSens; // Distanza letta dal sensore VL53L0X
+uint16_t r, g, b, c; float nR, nG, nB; string colore;  // Variabili per la lettura e la manipolazione del colore
+char received = 'N';  // Flag di ricezione OK dall'app
 
 void setup() {
   Serial.begin(115200);
   delay(150);
 
+  // Inizializzazione connessioni I2C
   vl53_I2C.begin(SDA0_pin, SCL0_pin);
   tcs_I2C.begin(SDA1_pin, SCL1_pin);
 
+  // Inizializzazione sensori
   deviceInit(vl53, tcs, vl53_I2C, tcs_I2C);
 
   Serial.println("Verifico la connessione del sensore VL53L0X..."); scanI2C(vl53_I2C);

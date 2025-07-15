@@ -5,7 +5,10 @@
 #include<ESP32Servo.h>
 #include<BluetoothSerial.h>
 
-
+/*
+	La procedura prende in input gli oggetti che identificano i sensori e gli oggetti che definiscono le loro connessioni seriali.
+	Essa inizializza i sensori con i parametri di connessione corretti, verificando che le connessioni siano effettuate correttamente.
+*/
 void deviceInit(VL53L0X &vl53, Adafruit_TCS34725 &tcs, TwoWire &vl53_I2C, TwoWire &tcs_I2C) {
 	Serial.println("Inizializzo i sensori...\n");
 
@@ -26,6 +29,10 @@ void deviceInit(VL53L0X &vl53, Adafruit_TCS34725 &tcs, TwoWire &vl53_I2C, TwoWir
   	Serial.println("Sensori correttamente inizializzati.\n");
 }
 
+/*
+	Semplice procedura che manda byte di dati a tutti gli indirizzi disponibili sul canale I2C datogli in input.
+	Nello specifico verifica che sui due canali i sensori siano collegati correttamente.
+*/
 void scanI2C(TwoWire &Wire) {
 	Serial.println("Scansionando il bus I2C...");
 	byte error, address;
@@ -47,6 +54,9 @@ void scanI2C(TwoWire &Wire) {
 	if (nDevices == 0) Serial.println("Nessun dispositivo trovato\n");
 }
 
+/*
+	Funzione elementare che legge la distanza tramite l'apposito sensore 5 volte di fila e ne calcola e restituisce la media.
+*/
 float getDist(VL53L0X &vl53) {
 	int i;
 	float dist, sum, med;
@@ -54,19 +64,24 @@ float getDist(VL53L0X &vl53) {
 	for(i=0; i<5; i++) {
 		dist = float(vl53.readRangeContinuousMillimeters());
 		sum += dist;
-		delay(10);
 	}
 	med = sum/5.0;
 
 	return(med);
 }
 
+/*
+	Procedura che normalizza i valor di Rosso, Verde e Blu letti dal sensore, rendendoli indipendenti dalla quantità di luce presente.
+*/
 void getRGB(uint16_t r, uint16_t g, uint16_t b, uint16_t c, float* nR, float* nG, float* nB) {
 	*nR = (float)r/c;
 	*nG = (float)g/c;
 	*nB = (float)b/c;
 }
 
+/*
+	Funzione che esegue il check della lettura dei colori, riconoscendo il colore corretto, restituendolo come array di caratteri.
+*/
 String getColor(float r, float g, float b, uint16_t c) {        
   if (r > 0.38 && g > 0.35 && b > 0.22 && c > 1800) return "Bianco";
   if (c < 900 && r < 0.52 && g < 0.4 && b < 0.25) return "Nero";
@@ -76,6 +91,9 @@ String getColor(float r, float g, float b, uint16_t c) {
   return "Altro";
 }
 
+/*
+	Procedura che, preso in input il colore restituito dalla funzione "getColor", muove gli attuatori riordinando le carte.
+*/
 void checkColor(string colore, Servo &servo, Servo &brush) {
 	if(colore == "Blu" || colore == "Altro") {
 		servo.write(0);
