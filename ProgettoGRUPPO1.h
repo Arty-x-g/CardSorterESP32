@@ -90,34 +90,34 @@ void getRGB(uint16_t r, uint16_t g, uint16_t b, uint16_t c, float* nR, float* nG
 	Funzione che esegue il check della lettura dei colori, riconoscendo il colore corretto, restituendolo come array di caratteri.
 */
 String getColor(float r, float g, float b, uint16_t c) {        
-  if (r > 0.38 && g > 0.35 && b > 0.22 && c > 1800) return "Bianco";
-  if (c < 900 && r < 0.52 && g < 0.4 && b < 0.25) return "Nero";
-  if (r > 0.58 && g < 0.32 && b < 0.22) return "Rosso";
-  if (r > 0.35 && g > 0.36 && b > 0.27) return "Blu";
-  if (g > b && r > b && g > 0.35) return "Verde";
-  return "Altro";
+  if (r > 0.38 && g > 0.35 && b > 0.22 && c > 1800) return "White";
+  if (c < 900 && r < 0.52 && g < 0.4 && b < 0.25) return "Black";
+  if (r > 0.58 && g < 0.32 && b < 0.22) return "Red";
+  if (r > 0.35 && g > 0.36 && b > 0.27) return "Blue";
+  if (g > b && r > b && g > 0.35) return "Green";
+  return "Other";
 }
 
 /*
 	Procedura che, preso in input il colore restituito dalla funzione "getColor", muove gli attuatori riordinando le carte.
 */
 void checkColor(String colore, Servo &servo, Servo &brush) {
-	if(colore == "Blu" || colore == "Altro") {
+	if(colore == "Blue" || colore == "Other") {
 		servo.write(0);
   		delay(1000);
-  		if(colore == "Blu" ) brush.write(0); 
+  		if(colore == "Blue" ) brush.write(0); 
   		else brush.write(180);
 	}
-	else if(colore == "Verde" || colore == "Rosso") {
+	else if(colore == "Green" || colore == "Red") {
   		servo.write(60);
   		delay(1000);
-  		if(colore == "Verde" ) brush.write(0); 
+  		if(colore == "Green" ) brush.write(0); 
 		else brush.write(180);
 	} 
-	else if(colore == "Nero" || colore == "Bianco") {
+	else if(colore == "Black" || colore == "White") {
   		servo.write(120);
   		delay(1000);
-  		if(colore == "Nero" ) brush.write(0); 
+  		if(colore == "Black" ) brush.write(0); 
   		else brush.write(180);
 	}
 }
