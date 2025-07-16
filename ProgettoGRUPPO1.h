@@ -101,7 +101,7 @@ String getColor(float r, float g, float b, uint16_t c) {
 /*
 	Procedura che, preso in input il colore restituito dalla funzione "getColor", muove gli attuatori riordinando le carte.
 */
-void checkColor(string colore, Servo &servo, Servo &brush) {
+void checkColor(String colore, Servo &servo, Servo &brush) {
 	if(colore == "Blu" || colore == "Altro") {
 		servo.write(0);
   		delay(1000);

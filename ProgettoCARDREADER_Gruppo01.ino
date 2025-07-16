@@ -35,7 +35,7 @@ BluetoothSerial SerialBT;
 
 // Variabili globali
 float distSens; // Distanza letta dal sensore VL53L0X
-uint16_t r, g, b, c; float nR, nG, nB; string colore;  // Variabili per la lettura e la manipolazione del colore
+uint16_t r, g, b, c; float nR, nG, nB; String colore;  // Variabili per la lettura e la manipolazione del colore
 char received = 'N';  // Flag di ricezione OK dall'app
 
 void setup() {
