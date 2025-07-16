@@ -114,6 +114,7 @@ void loop() {
   Serial.println(brush.read());
   Serial.println("In attesa di segnale Bluetooth o pulsante premuto...");
   digitalWrite(RED_pin, HIGH);
+  received = 'N';
   while(true) {
     debouncer.update();
     if(SerialBT.available()) received = SerialBT.read();
