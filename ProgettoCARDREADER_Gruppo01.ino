@@ -103,7 +103,7 @@ void loop() {
 
   Serial.print("Colore rilevato: ");
   Serial.println(colore);
-  SerialBT.write(colore);
+  SerialBT.println(colore);
 
   delay(1000);
   checkColor(colore, servo, brush);
