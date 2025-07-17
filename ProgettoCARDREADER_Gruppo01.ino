@@ -67,7 +67,7 @@ void setup() {
   while(!SerialBT.hasClient()) delay(100);
   Serial.println("Cellulare connesso correttamente!");
 
-  delay(1000);
+  delay(2000);
 }
 
 void loop() {
@@ -90,8 +90,9 @@ void loop() {
   digitalWrite(BUZZER_pin, LOW);
 
   Serial.println("Carta presente -----------> Valuto il colore");
+  delay(100);
   tcs.getRawData(&r, &g, &b, &c);
-
+  delay(200);
   Serial.print(" | R: "); Serial.print(nR);
   Serial.print(" | G: "); Serial.print(nG);
   Serial.print(" | B: "); Serial.print(nB);
@@ -103,9 +104,10 @@ void loop() {
 
   Serial.print("Colore rilevato: ");
   Serial.println(colore);
+  delay(500);
   SerialBT.println(colore);
 
-  delay(1000);
+  delay(1500);
   checkColor(colore, servo, brush);
 
   Serial.print("Motore 1 in angolo: ");
@@ -129,5 +131,5 @@ void loop() {
     }
   }
 
-  delay(1000);
+  delay(2000);
 }
