@@ -78,7 +78,7 @@ void loop() {
 
   distSens = getDist(vl53);
 
-  while(distSens > MIN_dist) {
+  while (distSens > MIN_dist) {
     distSens = getDist(vl53);
     Serial.print("Carta non presente\n Distanza (mm): ");
     Serial.println(distSens, DEC);
@@ -93,34 +93,29 @@ void loop() {
   delay(100);
   tcs.getRawData(&r, &g, &b, &c);
   delay(200);
+  getRGB(r, g, b, c, &nR, &nG, &nB);
   Serial.print(" | R: "); Serial.print(nR);
   Serial.print(" | G: "); Serial.print(nG);
   Serial.print(" | B: "); Serial.print(nB);
   Serial.print(" | Clear: "); Serial.print(c);
   Serial.println("\n--------------------");
 
-  getRGB(r, g, b, c, &nR, &nG, &nB);
   colore = getColor(nR, nG, nB, c);
-
-  Serial.print("Colore rilevato: ");
-  Serial.println(colore);
+  Serial.print("Colore rilevato: "); Serial.println(colore);
   delay(500);
   SerialBT.println(colore);
 
   delay(1500);
   checkColor(colore, servo, brush);
-
-  Serial.print("Motore 1 in angolo: ");
-  Serial.println(servo.read()); 
-  Serial.print("Spazzola in angolo: ");
-  Serial.println(brush.read());
+  Serial.print("Motore 1 in angolo: "); Serial.println(servo.read()); 
+  Serial.print("Spazzola in angolo: "); Serial.println(brush.read());
   Serial.println("In attesa di segnale Bluetooth o pulsante premuto...");
   digitalWrite(RED_pin, HIGH);
   received = 'N';
-  while(true) {
+  while (true) {
     debouncer.update();
-    if(SerialBT.available()) received = SerialBT.read();
-    if(debouncer.fell() || received == 'Y') {  
+    if (SerialBT.available()) received = SerialBT.read();
+    if (debouncer.fell() || received == 'Y') {  
       Serial.println("OK!!");
       digitalWrite(RED_pin, LOW);
       digitalWrite(GREEN_pin, HIGH);

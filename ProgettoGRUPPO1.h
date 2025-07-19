@@ -19,14 +19,14 @@
 void deviceInit(VL53L0X &vl53, Adafruit_TCS34725 &tcs, TwoWire &vl53_I2C, TwoWire &tcs_I2C) {
 	Serial.println("Inizializzo i sensori...\n");
 
-	if(!tcs.begin(0x29, &tcs_I2C)) {
+	if (!tcs.begin(0x29, &tcs_I2C)) {
 		Serial.println("Errore nell'inizializzare il TCS34725.\n");
 		while(1);
   	}
   	Serial.println("Sensore TCS34725 inizializzato correttamente.");
   
   	vl53.setBus(&vl53_I2C);
-  	if(!vl53.init()) {
+  	if (!vl53.init()) {
 		Serial.println("Errore inizializzazione VL53\n");
     	while(1);
   	}
@@ -45,7 +45,7 @@ void scanI2C(TwoWire &Wire) {
 	byte error, address;
 	int nDevices = 0;
   
-	for(address = 1; address < 127; address++ ) {
+	for (address = 1; address < 127; address++ ) {
     	Wire.beginTransmission(address);
     	error = Wire.endTransmission();
     
@@ -68,7 +68,7 @@ float getDist(VL53L0X &vl53) {
 	int i;
 	float dist, sum, med;
 
-	for(i=0; i<5; i++) {
+	for (i=0; i<5; i++) {
 		dist = float(vl53.readRangeContinuousMillimeters());
 		sum += dist;
 	}
@@ -90,11 +90,11 @@ void getRGB(uint16_t r, uint16_t g, uint16_t b, uint16_t c, float* nR, float* nG
 	Funzione che esegue il check della lettura dei colori, riconoscendo il colore corretto, restituendolo come array di caratteri.
 */
 String getColor(float r, float g, float b, uint16_t c) {        
-  if (r > 0.38 && g > 0.35 && b > 0.22 && c > 1800) return "White";
-  if (c < 900 && r < 0.52 && g < 0.4 && b < 0.25) return "Black";
-  if (r > 0.58 && g < 0.32 && b < 0.22) return "Red";
-  if (r > 0.35 && g > 0.36 && b > 0.27) return "Blue";
-  if (g > b && r > b && g > 0.35) return "Green";
+  if (c > 1850) return "White";
+  else if (c < 850) return "Black";
+  else if (r > 0.54 && g < 0.32 && b < 0.22) return "Red";
+  else if (r > 0.3 && g > 0.36 && b > 0.27 && c>1250) return "Blue";
+  else if (g > b && r > b && g > 0.35) return "Green";
   return "Other";
 }
 
@@ -102,22 +102,22 @@ String getColor(float r, float g, float b, uint16_t c) {
 	Procedura che, preso in input il colore restituito dalla funzione "getColor", muove gli attuatori riordinando le carte.
 */
 void checkColor(String colore, Servo &servo, Servo &brush) {
-	if(colore == "Blue" || colore == "Other") {
+	if (colore == "Blue" || colore == "Other") {
 		servo.write(0);
   		delay(1000);
-  		if(colore == "Blue" ) brush.write(0); 
+  		if (colore == "Blue" ) brush.write(0); 
   		else brush.write(180);
 	}
-	else if(colore == "Green" || colore == "Red") {
+	else if (colore == "Green" || colore == "Red") {
   		servo.write(60);
   		delay(1000);
-  		if(colore == "Green" ) brush.write(0); 
+  		if (colore == "Green" ) brush.write(0); 
 		else brush.write(180);
 	} 
-	else if(colore == "Black" || colore == "White") {
+	else if (colore == "Black" || colore == "White") {
   		servo.write(120);
   		delay(1000);
-  		if(colore == "Black" ) brush.write(0); 
+  		if (colore == "Black" ) brush.write(0); 
   		else brush.write(180);
 	}
 }
