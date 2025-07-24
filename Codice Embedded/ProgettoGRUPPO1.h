@@ -92,7 +92,7 @@ void getRGB(uint16_t r, uint16_t g, uint16_t b, uint16_t c, float* nR, float* nG
 String getColor(float r, float g, float b, uint16_t c) {        
   if (c > 1850) return "White";
   else if (c < 850) return "Black";
-  else if (r > 0.54 && g < 0.32 && b < 0.22) return "Red";
+  else if (r > 0.5 && g < 0.34 && b < 0.25) return "Red";
   else if (r > 0.3 && g > 0.36 && b > 0.27 && c > 1250) return "Blue";
   else if (g > b && r > b && g > 0.35) return "Green";
   return "Other";
